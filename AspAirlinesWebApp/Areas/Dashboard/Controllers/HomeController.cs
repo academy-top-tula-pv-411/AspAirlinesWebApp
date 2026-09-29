@@ -9,14 +9,13 @@ namespace AspAirlinesWebApp.Areas.Dashboard.Controllers
     {
         public IActionResult Index()
         {
-            DashboardViewModel viewModel = new();
 
             using(DashboardDbContext context = new())
             {
-                viewModel.Items = context.Items.ToList();
+                ViewData["Items"] = context.Items.ToList();
             }
 
-            return View(viewModel);
+            return View();
         }
     }
 }

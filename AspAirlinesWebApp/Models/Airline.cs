@@ -1,4 +1,6 @@
-﻿namespace AspAirlinesWebApp.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AspAirlinesWebApp.Models
 {
     public class Airline
     {

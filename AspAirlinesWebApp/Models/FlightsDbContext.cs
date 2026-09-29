@@ -18,7 +18,18 @@ namespace AspAirlinesWebApp.Models
                                                    .Build();
 
             optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+        }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Airport>()
+                        .HasOne(a => a.City)
+                        .WithMany(a => a.Airports)
+                        .HasForeignKey(a => a.CityId);
+
+            
         }
     }
 }
