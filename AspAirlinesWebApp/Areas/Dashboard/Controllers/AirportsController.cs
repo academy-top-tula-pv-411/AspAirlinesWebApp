@@ -21,19 +21,24 @@ public class AirportsController : Controller
     {
         ViewData["Items"] = dashboardContext.Items.ToList();
 
-        return View("Index", await _context.Airports.ToListAsync());
+        return View("Index", await _context.Airports
+                                           .Include(a => a.City)
+                                           .ToListAsync());
     }
 
     // GET: AIRPORTS/Details/5
     public async Task<IActionResult> Details(int? id)
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+
         if (id == null)
         {
             return NotFound();
         }
 
         var airport = await _context.Airports
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                    .Include(a => a.City)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
         if (airport == null)
         {
             return NotFound();
@@ -45,6 +50,8 @@ public class AirportsController : Controller
     // GET: AIRPORTS/Create
     public IActionResult Create()
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
         return View();
     }
 
@@ -67,6 +74,9 @@ public class AirportsController : Controller
     // GET: AIRPORTS/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
+
         if (id == null)
         {
             return NotFound();
@@ -87,6 +97,8 @@ public class AirportsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,City,CityId")] Airport airport)
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+
         if (id != airport.Id)
         {
             return NotFound();
@@ -118,13 +130,16 @@ public class AirportsController : Controller
     // GET: AIRPORTS/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+
         if (id == null)
         {
             return NotFound();
         }
 
         var airport = await _context.Airports
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                    .Include(a => a.City)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
         if (airport == null)
         {
             return NotFound();
