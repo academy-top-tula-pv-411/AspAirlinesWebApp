@@ -25,14 +25,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
+                <input asp-for="Logo" type="file" access="image/*" class="form-control" />
+                <img src="~/images/@Model.Logo" height="100" />
+                
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Flights" class="control-label"></label>
-                <input asp-for="Flights" class="form-control" />
-                <span asp-validation-for="Flights" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -44,6 +42,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

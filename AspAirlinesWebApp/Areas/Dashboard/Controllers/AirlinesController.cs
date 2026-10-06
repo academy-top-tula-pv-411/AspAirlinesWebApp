@@ -9,6 +9,8 @@ public class AirlinesController : Controller
     private readonly FlightsDbContext _context;
     private readonly DashboardDbContext _dashboardContext;
 
+    string imagesDir = $"{Directory.GetCurrentDirectory()}\\wwwroot\\images";
+
     public AirlinesController()
     {
         _context = new FlightsDbContext();
@@ -19,6 +21,7 @@ public class AirlinesController : Controller
     public async Task<IActionResult> Index()    
     {
         ViewData["Items"] = _dashboardContext.Items.ToList();
+        ViewData["ImagesDir"] = imagesDir;
 
         return View(await _context.Airlines
                                   .Include(a => a.City)
@@ -47,7 +50,7 @@ public class AirlinesController : Controller
     public IActionResult Create()
     {
         ViewData["Items"] = _dashboardContext.Items.ToList();
-
+        ViewData["Cities"] = _context.Cities.ToList();
         return View();
     }
 
@@ -56,10 +59,17 @@ public class AirlinesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,City,Logo,Flights")] Airline airline)
+    public async Task<IActionResult> Create([Bind("Id,Title,City,CityId,Logo,Flights")] Airline airline)
     {
         if (ModelState.IsValid)
         {
+            var logo = Request.Form.Files[0];
+
+            using FileStream file = new($"{imagesDir}\\{logo.FileName}", FileMode.Create);
+            logo.CopyToAsync(file);
+
+            airline.Logo = logo.FileName;
+
             _context.Add(airline);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -70,6 +80,9 @@ public class AirlinesController : Controller
     // GET: AIRLINES/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
+
         if (id == null)
         {
             return NotFound();

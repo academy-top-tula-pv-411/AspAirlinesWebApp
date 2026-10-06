@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -27,21 +27,15 @@
                         <option value="@city.Id">@city.Title</option>
                     }
                 </select>
-                <span asp-validation-for="City" class="text-danger"></span>
+                <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
-                <button type=""></button>
+                <input asp-for="Logo" type="file" accept="image/*" class="form-control" />
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Flights" class="control-label"></label>
-                <input asp-for="Flights" class="form-control" />
-                <span asp-validation-for="Flights" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -50,5 +44,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success">Back to List</a>
 </div>
