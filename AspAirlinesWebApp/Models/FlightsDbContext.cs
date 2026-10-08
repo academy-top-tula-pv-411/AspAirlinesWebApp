@@ -29,7 +29,19 @@ namespace AspAirlinesWebApp.Models
                         .WithMany(a => a.Airports)
                         .HasForeignKey(a => a.CityId);
 
-            
+            modelBuilder.Entity<Airline>()
+                        .HasOne(a => a.City)
+                        .WithMany(c => c.Airlines)
+                        .HasForeignKey(a => a.CityId);
+
+
+            modelBuilder.Entity<Flight>()
+                        .Property(f => f.DateFlight)
+                        .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Flight>()
+                        .Property(f => f.TimeFlight)
+                        .HasDefaultValueSql("GETDATE()");
         }
     }
 }

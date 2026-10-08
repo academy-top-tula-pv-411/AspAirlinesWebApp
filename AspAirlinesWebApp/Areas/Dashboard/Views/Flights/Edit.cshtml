@@ -1,0 +1,97 @@
+@model AspAirlinesWebApp.Models.Flight
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Flight</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateFlight" class="control-label"></label>
+                <input type="date" asp-for="DateFlight" class="form-control" />
+                <span asp-validation-for="DateFlight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeFlight" class="control-label"></label>
+                <input type="time" asp-for="TimeFlight" class="form-control" />
+                <span asp-validation-for="TimeFlight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Airline" class="control-label"></label>
+                <select asp-for="AirlineId" class="form-control">
+                    @foreach (var line in (ViewData["Airlines"] as IEnumerable<Airline>))
+                    {
+                        @if (Model.Id == line.Id)
+                        {
+                            <option selected value="@line.Id">@line.Title</option>
+                        }
+                        else
+                        {
+                            <option value="@line.Id">@line.Title</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Airline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Departure" class="control-label"></label>
+                <select asp-for="DepartureId" class="form-control">
+                    @foreach (var port in (ViewData["Airports"] as IEnumerable<Airport>))
+                    {
+                        @if(Model.DepartureId == port.Id)
+                        {
+                            <option selected value="@port.Id">@port.Title</option>
+                        }
+                        else
+                        {
+                            <option value="@port.Id">@port.Title</option>
+                        }
+                        
+                    }
+                </select>
+                <span asp-validation-for="Departure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Arrival" class="control-label"></label>
+                <select asp-for="ArrivalId" class="form-control">
+                    @foreach (var port in (ViewData["Airports"] as IEnumerable<Airport>))
+                    {
+                        @if (Model.ArrivalId == port.Id)
+                        {
+                            <option selected value="@port.Id">@port.Title</option>
+                        }
+                        else
+                        {
+                            <option value="@port.Id">@port.Title</option>
+                        }
+
+                    }
+                </select>
+                <span asp-validation-for="Arrival" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@

@@ -4,6 +4,7 @@ using AspAirlinesWebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspAirlinesWebApp.Migrations
 {
     [DbContext(typeof(FlightsDbContext))]
-    partial class FlightsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008163803_FlightChangedTwo")]
+    partial class FlightChangedTwo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,17 +104,13 @@ namespace AspAirlinesWebApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("DateFlight")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("date")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("date");
 
                     b.Property<int?>("DepartureId")
                         .HasColumnType("int");
 
                     b.Property<TimeOnly>("TimeFlight")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("time");
 
                     b.Property<string>("Title")
                         .IsRequired()

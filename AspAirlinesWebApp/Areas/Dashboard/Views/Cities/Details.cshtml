@@ -17,18 +17,30 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
     </dl>
+    <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Airports)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Airports)
+            <ul style="list-style-type: none">
+                @foreach(var port in Model.Airports)
+                {
+                    <li>@port.Title</li>
+                }
+            </ul>
         </dd>
     </dl>
+    <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Airlines)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Airlines)
+            <ul style="list-style-type: none">
+                @foreach (var line in Model.Airlines)
+                {
+                    <li>@line.Title</li>
+                }
+            </ul>
         </dd>
     </dl>
 </div>

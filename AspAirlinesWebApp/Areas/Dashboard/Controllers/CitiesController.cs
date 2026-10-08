@@ -34,7 +34,9 @@ public class CitiesController : Controller
         }
 
         var city = await flightsContext.Cities
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                       .Include(c => c.Airports)
+                                       .Include(c => c.Airlines)
+                                       .FirstOrDefaultAsync(m => m.Id == id);
         if (city == null)
         {
             return NotFound();
@@ -134,7 +136,9 @@ public class CitiesController : Controller
         }
 
         var city = await flightsContext.Cities
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                       .Include(c => c.Airports)
+                                       .Include(c => c.Airlines)
+                                       .FirstOrDefaultAsync(m => m.Id == id);
         if (city == null)
         {
             return NotFound();

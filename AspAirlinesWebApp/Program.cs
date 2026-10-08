@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 //var connectionString = builder.Configuration.GetConnectionString("FlightsDbContext") ?? throw new InvalidOperationException("Connection string 'FlightsDbContext' not found.");
 //builder.Services.AddDbContext<FlightsDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -17,6 +18,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAntiforgery();
 
 app.MapControllerRoute(
     name: "Dashboard",

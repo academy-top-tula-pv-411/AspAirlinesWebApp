@@ -31,13 +31,16 @@ public class AirlinesController : Controller
     // GET: AIRLINES/Details/5
     public async Task<IActionResult> Details(int? id)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+
         if (id == null)
         {
             return NotFound();
         }
 
         var airline = await _context.Airlines
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                    .Include(a => a.City)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
         if (airline == null)
         {
             return NotFound();
@@ -61,14 +64,21 @@ public class AirlinesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Title,City,CityId,Logo,Flights")] Airline airline)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
+
         if (ModelState.IsValid)
         {
-            var logo = Request.Form.Files[0];
+            if (Request.Form.Count > 0)
+            {
+                var logo = Request.Form.Files[0];
 
-            using FileStream file = new($"{imagesDir}\\{logo.FileName}", FileMode.Create);
-            logo.CopyToAsync(file);
+                using FileStream file = new($"{imagesDir}\\{logo.FileName}", FileMode.Create);
+                logo.CopyToAsync(file);
 
-            airline.Logo = logo.FileName;
+                airline.Logo = logo.FileName;
+            }
+
 
             _context.Add(airline);
             await _context.SaveChangesAsync();
@@ -101,17 +111,28 @@ public class AirlinesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,City,Logo,Flights")] Airline airline)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,City,CityId,Logo,Flights")] Airline airline)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
+
         if (id != airline.Id)
         {
             return NotFound();
         }
+            
 
         if (ModelState.IsValid)
         {
             try
             {
+                var logo = Request.Form.Files[0];
+
+                using FileStream file = new($"{imagesDir}\\{logo.FileName}", FileMode.Create);
+                logo.CopyToAsync(file);
+
+                airline.Logo = logo.FileName;
+
                 _context.Update(airline);
                 await _context.SaveChangesAsync();
             }
@@ -134,13 +155,16 @@ public class AirlinesController : Controller
     // GET: AIRLINES/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+
         if (id == null)
         {
             return NotFound();
         }
 
         var airline = await _context.Airlines
-            .FirstOrDefaultAsync(m => m.Id == id);
+                                    .Include(a => a.City)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
         if (airline == null)
         {
             return NotFound();
@@ -154,6 +178,8 @@ public class AirlinesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
+        ViewData["Items"] = _dashboardContext.Items.ToList();
+
         var airline = await _context.Airlines.FindAsync(id);
         if (airline != null)
         {

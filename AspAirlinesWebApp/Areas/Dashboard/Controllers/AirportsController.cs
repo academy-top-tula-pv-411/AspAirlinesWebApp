@@ -52,6 +52,7 @@ public class AirportsController : Controller
     {
         ViewData["Items"] = dashboardContext.Items.ToList();
         ViewData["Cities"] = _context.Cities.ToList();
+        
         return View();
     }
 
@@ -62,6 +63,9 @@ public class AirportsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Title,City,CityId")] Airport airport)
     {
+        ViewData["Items"] = dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
+
         if (ModelState.IsValid)
         {
             _context.Add(airport);
@@ -98,6 +102,7 @@ public class AirportsController : Controller
     public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,City,CityId")] Airport airport)
     {
         ViewData["Items"] = dashboardContext.Items.ToList();
+        ViewData["Cities"] = _context.Cities.ToList();
 
         if (id != airport.Id)
         {
