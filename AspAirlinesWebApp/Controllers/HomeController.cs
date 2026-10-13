@@ -1,32 +1,53 @@
 using AspAirlinesWebApp.Models;
+using AspAirlinesWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace AspAirlinesWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        FlightsDbContext _flightsDbContext = new FlightsDbContext();
+        public async Task<IActionResult> Index(PropertySort propertySort = PropertySort.Airline,
+                                                bool directionSort = true)
         {
-            _logger = logger;
+            ViewBag.MenuMain = new List<string>() { "Home", "About", "Gallery", "Contacts" };
+
+            IQueryable<Flight> flights = _flightsDbContext.Flights
+                                           .Include(f => f.Departure)
+                                            .ThenInclude(d => d.City)
+                                           .Include(f => f.Arrival)
+                                            .ThenInclude(a => a.City)
+                                           .Include(f => f.Airline);
+
+
+
+            flights = propertySort switch
+            {
+                PropertySort.Airline => (directionSort) ? flights.OrderBy(f => f.Airline!.Title)
+                                                        : flights.OrderByDescending(f => f.Airline!.Title),
+                PropertySort.Departure => (directionSort) ? flights.OrderBy(f => f.Departure!.Title)
+                                                    : flights.OrderByDescending(f => f.Departure!.Title),
+                PropertySort.Arrival => (directionSort) ? flights.OrderBy(f => f.Arrival!.Title)
+                                                : flights.OrderByDescending(f => f.Arrival!.Title),
+                PropertySort.Date => (directionSort) ? flights.OrderBy(f => f.DateFlight)
+                                            : flights.OrderByDescending(f => f.DateFlight),
+                _ => throw new NotImplementedException()
+            };
+
+            IndexViewModel viewModel = new()
+            {
+                Flights = flights.ToList(),
+                SortViewModel = new(
+                    propertySort,
+                    directionSort
+                )
+            };
+
+            return View(viewModel);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }

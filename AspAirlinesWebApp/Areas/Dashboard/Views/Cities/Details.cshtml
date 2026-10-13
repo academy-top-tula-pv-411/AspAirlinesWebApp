@@ -4,10 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<h4>Details City</h4>
 <div>
-    <h4>City</h4>
+    
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -22,10 +21,10 @@
             @Html.DisplayNameFor(model => model.Airports)
         </dt>
         <dd class = "col-sm-10">
-            <ul style="list-style-type: none">
+            <ul class="list-group">
                 @foreach(var port in Model.Airports)
                 {
-                    <li>@port.Title</li>
+                    <li class="list-group-item">@port.Title</li>
                 }
             </ul>
         </dd>
@@ -35,16 +34,16 @@
             @Html.DisplayNameFor(model => model.Airlines)
         </dt>
         <dd class = "col-sm-10">
-            <ul style="list-style-type: none">
+            <ul class="list-group">
                 @foreach (var line in Model.Airlines)
                 {
-                    <li>@line.Title</li>
+                    <li class="list-group-item">@line.Title</li>
                 }
             </ul>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id"  class="btn btn-sm btn-primary">Edit</a> |
+    <a asp-action="Index" class="btn btn-sm btn-success">Back to List</a>
 </div>

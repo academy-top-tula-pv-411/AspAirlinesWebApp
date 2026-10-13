@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using AspAirlinesWebApp.ViewModels
+@model IndexViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="table-responsive">
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th>Flight Title</th>
+            <th>
+                 <a asp-action="Index" asp-route-property-sort=""
+                                        asp-route-direction-sort="">Airline</a>
+            </th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            @foreach(var f in Model)
+            {
+                <tr>
+                    <td>@f.Title</td>
+                    <td>@f.Airline?.Title</td>
+                    <td>@f.Departure?.Title (@f.Departure?.City?.Title)</td>
+                    <td>@f.Arrival?.Title (@f.Arrival?.City?.Title)</td>
+                    <td>@f.DateFlight.ToShortDateString()</td>
+                    <td>@f.TimeFlight.ToShortTimeString()</td>
+                </tr>
+            }
+        </tbody>
+
+        
+      </table>
+    </div>
+

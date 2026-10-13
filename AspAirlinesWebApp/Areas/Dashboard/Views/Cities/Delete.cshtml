@@ -3,13 +3,8 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h4>Are you sure you want to delete this City?</h4>
 <div>
-    <h4>City</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
@@ -23,10 +18,10 @@
             @Html.DisplayNameFor(model => model.Airports)
         </dt>
         <dd class = "col-sm-10">
-            <ul style="list-style-type: none">
+            <ul class="list-group">
                 @foreach (var port in Model.Airports)
                 {
-                    <li>@port.Title</li>
+                    <li class="list-group-item">@port.Title</li>
                 }
             </ul>
         </dd>
@@ -36,17 +31,17 @@
             @Html.DisplayNameFor(model => model.Airlines)
         </dt>
         <dd class = "col-sm-10">
-            <ul style="list-style-type: none">
+            <ul class="list-group">
                 @foreach (var line in Model.Airlines)
                 {
-                    <li>@line.Title</li>
+                    <li class="list-group-item">@line.Title</li>
                 }
             </ul>
         </dd>
     </dl>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-sm btn-danger" /> |
+        <a asp-action="Index" class="btn btn-sm btn-success">Back to List</a>
     </form>
 </div>
