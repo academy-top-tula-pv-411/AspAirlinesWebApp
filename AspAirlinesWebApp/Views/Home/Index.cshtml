@@ -1,23 +1,49 @@
 ﻿@using AspAirlinesWebApp.ViewModels
+
+@addTagHelper *, AspAirlinesWebApp
+
 @model IndexViewModel
 
     <div class="table-responsive">
-      <table class="table text-center">
+        <form method="get" class="mb-5 form-control">
+            <div class="input-group">
+                <label class="form-control">Airline</label>
+                <select class="form-control" name="airline" asp-items="Model.FilterViewModel.Airlines"></select>
+
+                <label class="form-control">Airport</label>
+                <select class="form-control" name="airport" asp-items="Model.FilterViewModel.Airports"></select>
+
+                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+            </div>
+        </form>
+
+      <table class="table text-left">
         <thead>
           <tr>
             <th>Flight Title</th>
             <th>
-                 <a asp-action="Index" asp-route-property-sort=""
-                                        asp-route-direction-sort="">Airline</a>
+                 <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.AirlineState">Airline</a>
             </th>
-            <th>Departure</th>
-            <th>Arrival</th>
-            <th>Date</th>
+            <th>
+                 <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.DepartureState">Departure</a>
+            </th>
+            <th>
+                <sort action="Index" current="@Model.SortViewModel.CurrentState"
+                                        property="@Model.SortViewModel.AirlineState">
+                     Arrival               
+                </sort>
+            </th>
+            <th>
+                <sort action="Index" current="@Model.SortViewModel.CurrentState"
+                                        property="@Model.SortViewModel.DateState">
+                     Date               
+                </sort>
+            </th>
             <th>Time</th>
           </tr>
         </thead>
         <tbody>
-            @foreach(var f in Model)
+            @foreach(var f in Model.Flights)
             {
                 <tr>
                     <td>@f.Title</td>
@@ -29,8 +55,44 @@
                 </tr>
             }
         </tbody>
-
-        
       </table>
+
+    <div class="mt-5 form-control input-group">
+        <ul class="pagination">
+            <li class="page-item @(Model.PageViewModel.HasPrev ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PageViewModel.ActivePage - 1"
+                   asp-route-pageSize="@Model.PageViewModel.PageSize">Previous</a>
+            </li>
+
+            
+            @for(int p = 1; p <= Model.PageViewModel.PageCount; p++)
+            {
+                <li class="page-item @(Model.PageViewModel.ActivePage == p ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p"
+                       asp-route-pageSize="@Model.PageViewModel.PageSize">
+                        @p
+                    </a>
+                </li>
+            }
+            
+            <li class="page-item @(Model.PageViewModel.HasNext ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PageViewModel.ActivePage + 1"
+                   asp-route-pageSize="@Model.PageViewModel.PageSize">Next</a>
+            </li>
+        </ul>
+
+        <form method="get" class="input-group">
+            <label class="form-control">Count of flights at page</label>
+            <input value="@Model.PageViewModel.PageSize" name="pageSize" type="number" min="1" class="form-control" />
+            <button type="submit" class="btn btn-sm btn-primary">Select</button>
+        </form>
+      </div>
+
     </div>
 

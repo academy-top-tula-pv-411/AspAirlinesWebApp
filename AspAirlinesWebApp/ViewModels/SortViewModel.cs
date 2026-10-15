@@ -1,21 +1,60 @@
 ﻿namespace AspAirlinesWebApp.ViewModels
 {
-    public enum PropertySort
+    public enum SortState
     {
-        Airline,
-        Departure,
-        Arrival,
-        Date
+        AirlineAsc,
+        AirlineDesc,
+        DepartureAsc,
+        DepartureDesc,
+        ArrivalAsc,
+        ArrivalDesc,
+        DateAsc,
+        DateDesc
     }
     public class SortViewModel
     {
-        public bool DirectionSort { get; set; }
-        public PropertySort PropertySort { get; set; }
-
-        public SortViewModel(PropertySort propertySort, bool directionSort)
+        public SortState AirlineState { get; set; }
+        public SortState DepartureState { get; set; }
+        public SortState ArrivalState { get; set; }
+        public SortState DateState { get; set; }
+        public SortState CurrentState { get; set; }
+        public SortViewModel(SortState sortState)
         {
-            PropertySort = propertySort;
-            DirectionSort = directionSort;
+            AirlineState = SortState.AirlineAsc;
+            DepartureState = SortState.DepartureAsc;
+            ArrivalState = SortState.ArrivalAsc;
+            DateState = SortState.DateAsc;
+
+            switch (sortState)
+            {
+                case SortState.AirlineAsc:
+                    CurrentState = AirlineState = SortState.AirlineDesc;
+                    break;
+                case SortState.AirlineDesc:
+                    CurrentState = AirlineState = SortState.AirlineAsc;
+                    break;
+                case SortState.DepartureAsc:
+                    CurrentState = DepartureState = SortState.DepartureDesc;
+                    break;
+                case SortState.DepartureDesc:
+                    CurrentState = DepartureState = SortState.DepartureAsc;
+                    break;
+                case SortState.ArrivalAsc:
+                    CurrentState = ArrivalState = SortState.ArrivalDesc;
+                    break;
+                case SortState.ArrivalDesc:
+                    CurrentState = ArrivalState = SortState.ArrivalAsc;
+                    break;
+                case SortState.DateAsc:
+                    CurrentState = DateState = SortState.DateDesc;
+                    break;
+                case SortState.DateDesc:
+                    CurrentState = DateState = SortState.DateAsc;
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }
