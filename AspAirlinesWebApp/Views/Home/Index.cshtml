@@ -7,6 +7,9 @@
     <div class="table-responsive">
         <form method="get" class="mb-5 form-control">
             <div class="input-group">
+                <input hidden="hidden" name="sortState" value="@Model.SortViewModel.CurrentState" />
+                <input hidden="hidden" name="pageSize" value="@Model.PageViewModel.PageSize" />
+
                 <label class="form-control">Airline</label>
                 <select class="form-control" name="airline" asp-items="Model.FilterViewModel.Airlines"></select>
 
@@ -22,20 +25,44 @@
           <tr>
             <th>Flight Title</th>
             <th>
-                 <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.AirlineState">Airline</a>
+                 @* <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.AirlineState">Airline</a> *@
+                 <sort action="Index" current="@Model.SortViewModel.CurrentState"
+                                     property="@Model.SortViewModel.AirlineState"
+                                     airline="@Model.FilterViewModel.SelectedAirline"
+                                     airport="@Model.FilterViewModel.SelectedAirport"
+                                     page="@Model.PageViewModel.ActivePage"
+                                     page-size="@Model.PageViewModel.PageSize">
+                     Airline               
+                </sort>
             </th>
             <th>
-                 <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.DepartureState">Departure</a>
+                 @* <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.DepartureState">Departure</a> *@
+                 <sort action="Index" current="@Model.SortViewModel.CurrentState"
+                                     property="@Model.SortViewModel.DepartureState"
+                                     airline="@Model.FilterViewModel.SelectedAirline"
+                                     airport="@Model.FilterViewModel.SelectedAirport"
+                                     page="@Model.PageViewModel.ActivePage"
+                                     page-size="@Model.PageViewModel.PageSize">
+                     Departure               
+                </sort>
             </th>
             <th>
                 <sort action="Index" current="@Model.SortViewModel.CurrentState"
-                                        property="@Model.SortViewModel.AirlineState">
+                                     property="@Model.SortViewModel.ArrivalState"
+                                     airline="@Model.FilterViewModel.SelectedAirline"
+                                     airport="@Model.FilterViewModel.SelectedAirport"
+                                     page="@Model.PageViewModel.ActivePage"
+                                     page-size="@Model.PageViewModel.PageSize">
                      Arrival               
                 </sort>
             </th>
             <th>
                 <sort action="Index" current="@Model.SortViewModel.CurrentState"
-                                        property="@Model.SortViewModel.DateState">
+                                     property="@Model.SortViewModel.DateState"
+                                     airline="@Model.FilterViewModel.SelectedAirline"
+                                     airport="@Model.FilterViewModel.SelectedAirport"
+                                     page="@Model.PageViewModel.ActivePage"
+                                     page-size="@Model.PageViewModel.PageSize">
                      Date               
                 </sort>
             </th>
@@ -58,7 +85,8 @@
       </table>
 
     <div class="mt-5 form-control input-group">
-        <ul class="pagination">
+
+        @* <ul class="pagination">
             <li class="page-item @(Model.PageViewModel.HasPrev ? "" : "disabled")">
                 <a class="page-link"
                    asp-action="Index"
@@ -85,9 +113,21 @@
                    asp-route-page="@Model.PageViewModel.ActivePage + 1"
                    asp-route-pageSize="@Model.PageViewModel.PageSize">Next</a>
             </li>
-        </ul>
+        </ul> *@
+
+        <page-link action="Index"
+                   model="@Model.PageViewModel"
+                   sort-state="@Model.SortViewModel.CurrentState"
+                   airline="@Model.FilterViewModel.SelectedAirline"
+                   airport="@Model.FilterViewModel.SelectedAirport">
+        </page-link>
+                   
 
         <form method="get" class="input-group">
+            <input hidden="hidden" name="sortState" value="@Model.SortViewModel.CurrentState" />
+            <input hidden="hidden" name="airline" value="@Model.FilterViewModel.SelectedAirline" />
+            <input hidden="hidden" name="airport" value="@Model.FilterViewModel.SelectedAirport" />
+
             <label class="form-control">Count of flights at page</label>
             <input value="@Model.PageViewModel.PageSize" name="pageSize" type="number" min="1" class="form-control" />
             <button type="submit" class="btn btn-sm btn-primary">Select</button>
@@ -95,4 +135,6 @@
       </div>
 
     </div>
+
+
 

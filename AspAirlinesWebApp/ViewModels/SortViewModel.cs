@@ -25,35 +25,37 @@
             ArrivalState = SortState.ArrivalAsc;
             DateState = SortState.DateAsc;
 
-            switch (sortState)
-            {
-                case SortState.AirlineAsc:
-                    CurrentState = AirlineState = SortState.AirlineDesc;
-                    break;
-                case SortState.AirlineDesc:
-                    CurrentState = AirlineState = SortState.AirlineAsc;
-                    break;
-                case SortState.DepartureAsc:
-                    CurrentState = DepartureState = SortState.DepartureDesc;
-                    break;
-                case SortState.DepartureDesc:
-                    CurrentState = DepartureState = SortState.DepartureAsc;
-                    break;
-                case SortState.ArrivalAsc:
-                    CurrentState = ArrivalState = SortState.ArrivalDesc;
-                    break;
-                case SortState.ArrivalDesc:
-                    CurrentState = ArrivalState = SortState.ArrivalAsc;
-                    break;
-                case SortState.DateAsc:
-                    CurrentState = DateState = SortState.DateDesc;
-                    break;
-                case SortState.DateDesc:
-                    CurrentState = DateState = SortState.DateAsc;
-                    break;
-                default:
-                    break;
-            }
+            CurrentState = sortState;
+
+            //switch (sortState)
+            //{
+            //    case SortState.AirlineAsc:
+            //        CurrentState = AirlineState = SortState.AirlineDesc;
+            //        break;
+            //    case SortState.AirlineDesc:
+            //        CurrentState = AirlineState = SortState.AirlineAsc;
+            //        break;
+            //    case SortState.DepartureAsc:
+            //        CurrentState = DepartureState = SortState.DepartureDesc;
+            //        break;
+            //    case SortState.DepartureDesc:
+            //        CurrentState = DepartureState = SortState.DepartureAsc;
+            //        break;
+            //    case SortState.ArrivalAsc:
+            //        CurrentState = ArrivalState = SortState.ArrivalDesc;
+            //        break;
+            //    case SortState.ArrivalDesc:
+            //        CurrentState = ArrivalState = SortState.ArrivalAsc;
+            //        break;
+            //    case SortState.DateAsc:
+            //        CurrentState = DateState = SortState.DateDesc;
+            //        break;
+            //    case SortState.DateDesc:
+            //        CurrentState = DateState = SortState.DateAsc;
+            //        break;
+            //    default:
+            //        break;
+            //}
 
         }
     }

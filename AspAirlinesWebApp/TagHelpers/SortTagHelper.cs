@@ -9,9 +9,18 @@ namespace AspAirlinesWebApp.TagHelpers
 {
     public class SortTagHelper : TagHelper
     {
+        // sort attributes
         public SortState Current { get; set; }
         public SortState Property { get; set; }
         public string? Action { get; set; }
+
+
+        // others attributes
+        public int Airline { get; set; }
+        public int Airport { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+
 
         [ViewContext]
         public ViewContext ViewContext { get; set; } = null!;
@@ -29,7 +38,15 @@ namespace AspAirlinesWebApp.TagHelpers
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             
             output.TagName = "a";
-            string? url = urlHelper.Action(Action, new { sortState = Property });
+            string? url = urlHelper.Action(Action, 
+                new 
+                { 
+                    sortState = Property,
+                    airline = Airline,
+                    airport = Airport,
+                    page = Page,
+                    pageSize = PageSize,
+                });
 
             output.Attributes.SetAttribute("href", url);
         }
